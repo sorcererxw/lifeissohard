@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Life is Sooooooooooooooooo Hard</title>
+  <link rel="shortcut icon" href="logo.jpeg" type="image/x-png" />
+
   <style>
     html,
     body {
@@ -19,7 +21,6 @@
       padding: 0 !important;
     }
 
-
     .qa {
       width: 100%;
       height: 100%;
@@ -27,14 +28,26 @@
     }
 
     .question {
-      font-size: 8em;
+      font-size: 5em;
       background-color: blanchedalmond;
       height: 100%;
     }
 
     .answer {
-      font-size: 6em;
+      font-size: 3em;
     }
+
+    @media screen and (min-width: 640px) {
+      .question {
+        font-size: 8em;
+      }
+
+      .answer {
+        font-size: 6em;
+      }
+    }
+
+
 
     .answer .hard {
       background-color: gainsboro;
@@ -61,17 +74,17 @@
 <body>
   <div class="row qa">
     <div class="col-xs-12">
-      <div class="row question">
+      <div class="row middle-xs center-xs question">
         <div class="col-xs-12 title">
           <span>今天难吗？</span>
         </div>
       </div>
     </div>
     <div class="col-xs-12 row answer" onclick="play()">
-      <div class="col-xs-6 hard">
+      <div class="col-xs-6 hard row middle-xs center-xs">
         <a href="#">难</a>
       </div>
-      <div class="col-xs-6 too-hard">
+      <div class="col-xs-6 too-hard row middle-xs center-xs">
         <a href="#">太难了</a>
       </div>
     </div>
@@ -89,7 +102,7 @@
       for (var i = 0; i < size; i++) {
         var img = document.createElement("IMG")
         img.src = 'hard-480.gif'
-        img.className = 'col-xs-3 gif'
+        img.className = 'col-xs-6 col-md-3 gif'
         gallery.appendChild(img)
       }
     }

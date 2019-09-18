@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Life is Sooo Hard</title>
+  <style>
+    .video {
+      width: 25%;
+      /* height: 500px; */
+      margin: 0;
+      padding: 0;
+      float: left;
+    }
+
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <video class="video">
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+  <video class="video" muted>
+    <source src="hard.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    window.onload = function () {
+      var videos = document.getElementsByTagName("video")
+      for (var i = 0; i < videos.length; i++) {
+        var video = videos[i]
+        try {
+          video.play()
+        } catch (err) {
+          console.error(err)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

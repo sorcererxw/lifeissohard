@@ -7,60 +7,113 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Life is Sooo Hard</title>
   <style>
-    .video {
-      width: 25%;
-      /* height: 500px; */
-      margin: 0;
-      padding: 0;
-      float: left;
-    }
-
     html,
     body {
-      padding: 0;
-      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+
+    * {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+
+    .qa {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    .question {
+      font-size: 8em;
+      background-color: blanchedalmond;
+      height: 100%;
+    }
+
+    .answer {
+      font-size: 6em;
+    }
+
+    .answer .hard {
+      background-color: gainsboro;
+    }
+
+    .answer .too-hard {
+      background-color: darkgrey;
+    }
+
+    .gif {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
   </style>
+  <link rel="stylesheet" href="flexboxgrid.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <video class="video">
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
-  <video class="video" muted>
-    <source src="hard.mp4" type="video/mp4">
-  </video>
+  <div class="row qa">
+    <div class="col-xs-12">
+      <div class="row question">
+        <div class="col-xs-12 title">
+          <span>今天难吗？</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 row answer" onclick="play()">
+      <div class="col-xs-6 hard">
+        <span>难</span>
+      </div>
+      <div class="col-xs-6 too-hard">
+        <p>太难了</p>
+      </div>
+    </div>
+  </div>
+  <div id="gallery" class="row">
+  </div>
 
-  <script>
-    window.onload = function () {
-      var videos = document.getElementsByTagName("video")
-      for (var i = 0; i < videos.length; i++) {
-        var video = videos[i]
-        try {
-          video.play()
-        } catch (err) {
-          console.error(err)
-        }
+  <audio id="player" loop src="hard.mp3"></audio>
+  <script type="text/javascript">
+    var player = document.getElementById('player')
+    var qa = document.getElementsByClassName('qa')[0]
+    var gallery = document.getElementById('gallery')
+
+    function appendGif(size) {
+      for (var i = 0; i < size; i++) {
+        var img = document.createElement("IMG")
+        img.src = 'hard-480.gif'
+        img.className = 'col-xs-3 gif'
+        gallery.appendChild(img)
       }
     }
+
+    function play() {
+      if (player) {
+        player.play()
+        player = null
+        qa.style = 'display: none;'
+        appendGif(12)
+      }
+    }
+
+    var ticking = false
+    var lastY = 0
+    window.addEventListener('scroll', function (e) {
+      var pos = window.scrollY
+
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          var diff = pos - lastY
+          appendGif(parseInt(diff / 50))
+          ticking = false
+          lastY = pos
+        })
+
+        ticking = true
+      }
+    })
   </script>
 </body>
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Life is Sooooooooooooooooo Hard</title>
+    <link rel="shortcut icon" href="logo.jpeg" type="image/x-png"/>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flexboxgrid.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div id="gallery" class="row">
+</div>
+
+<audio id="player" loop src="hard.mp3"></audio>
+<script type="text/javascript">
+    var player = document.getElementById('player')
+    var gallery = document.getElementById('gallery')
+
+    function appendGif(size) {
+        for (var i = 0; i < size; i++) {
+            var img = document.createElement("IMG")
+            img.src = 'hard-480.gif'
+            img.className = 'col-xs-6 col-md-3 gif'
+            gallery.appendChild(img)
+        }
+    }
+
+    if (player) {
+        player.play()
+        player = null
+        appendGif(12)
+    }
+
+    var ticking = false
+    var lastY = 0
+    window.addEventListener('scroll', function (e) {
+        var pos = window.scrollY
+
+        if (!ticking) {
+            window.requestAnimationFrame(function () {
+                var diff = pos - lastY
+                appendGif(parseInt(diff / 50))
+                ticking = false
+                lastY = pos
+            })
+
+            ticking = true
+        }
+    })
+</script>
+</body>
+
+</html>

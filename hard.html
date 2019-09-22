@@ -20,8 +20,8 @@
     }
 
     .videowrap > video {
-      height: 0;
-      width: 0;
+      height: 0px;
+      width: 0px;
     }
   </style>
 
@@ -31,7 +31,7 @@
 
 <body>
 <div class="videowrap">
-  <video autoplay playsinline loop muted id="realvideo">
+  <video autoplay playsinline muted loop id="realvideo">
     <source type="video/webm"
             src="hard.webm">
   </video>
@@ -78,26 +78,9 @@
     if (player) {
       player.play();
       player = null;
-      appendGif(eachCount)
     }
+    appendGif(eachCount)
   });
-
-  let ticking = false;
-  let lastY = 0;
-  window.addEventListener('scroll', function (e) {
-    const pos = window.scrollY;
-
-    if (!ticking) {
-      window.requestAnimationFrame(function () {
-        const diff = pos - lastY;
-        appendGif(parseInt(diff / 50));
-        ticking = false;
-        lastY = pos
-      });
-
-      ticking = true
-    }
-  })
 </script>
 </body>
 

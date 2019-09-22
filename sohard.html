@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Life is Sooooooooooooooooo Hard</title>
+  <link rel="shortcut icon" href="logo.jpeg" type="image/x-png"/>
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html {
+      background: black;
+    }
+
+    .videowrap {
+      position: fixed;
+      z-index: 999;
+    }
+
+    .videowrap > video {
+      height: 0px;
+      width: 0px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="flexboxgrid.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="videowrap">
+  <video autoplay playsinline muted loop id="realvideo">
+    <source type="video/mp4"
+            src="hard.mp4">
+  </video>
+</div>
+<div id="gallery" style="line-height: 0">
+</div>
+
+<audio id="player" loop src="hard.mp3"></audio>
+<script type="text/javascript">
+  let player = document.getElementById('player');
+  const gallery = document.getElementById('gallery');
+
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const genericWidth = 300;
+  const rowCount = Math.floor(windowWidth / genericWidth);
+  const columnCount = Math.ceil(windowHeight / genericWidth);
+  const realWidth = windowWidth / rowCount;
+  const eachCount = rowCount * columnCount;
+
+  const v = document.getElementById('realvideo');
+
+  function updateBigVideo(v, c, w, h) {
+    if (v.paused || v.ended) return false;
+    c.drawImage(v, 0, 0, w, h);
+    setTimeout(updateBigVideo, 20, v, c, w, h);
+  }
+
+  function appendGif(size) {
+    for (let i = 0; i < size; i++) {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      const cw = Math.floor(realWidth);
+      const ch = Math.floor(realWidth);
+      canvas.width = cw;
+      canvas.height = ch;
+      updateBigVideo(v, context, cw, ch);
+      canvas.className = 'col-xs-6 col-md-3 gif';
+      gallery.appendChild(canvas)
+    }
+  }
+
+  v.addEventListener('play', function () {
+    if (player) {
+      player.play();
+      player = null;
+    }
+    appendGif(eachCount)
+  });
+</script>
+</body>
+
+</html>

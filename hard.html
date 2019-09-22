@@ -32,10 +32,10 @@
 <body>
 <div class="videowrap">
   <video autoplay playsinline muted loop id="realvideo">
-    <source type="video/mp4"
-            src="hard.mp4">
     <source type="video/webm"
             src="hard.webm">
+    <source type="video/mp4"
+            src="hard.mp4">
   </video>
 </div>
 <div id="gallery" style="line-height: 0">
@@ -46,12 +46,12 @@
   let player = document.getElementById('player');
   const gallery = document.getElementById('gallery');
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  const genericWidth = 300;
+  const windowWidth = document.body.clientWidth;
+  const windowHeight = document.body.clientHeight;
+  const genericWidth = size();
   const rowCount = Math.floor(windowWidth / genericWidth);
-  const columnCount = Math.ceil(windowHeight / genericWidth);
   const realWidth = windowWidth / rowCount;
+  const columnCount = Math.ceil(windowHeight / realWidth);
   const eachCount = rowCount * columnCount;
 
   const v = document.getElementById('realvideo');
@@ -59,6 +59,15 @@
   function isMute() {
     const reg = /[?&]mute=1/;
     return reg.test(document.location)
+  }
+
+  function size() {
+    const reg = /[?&]size=(\d+)/;
+    const match = reg.exec(document.location);
+    if (match && match.length >= 2) {
+      return parseInt(match[1])
+    }
+    return 300
   }
 
   function updateBigVideo(v, c, w, h) {
@@ -76,7 +85,7 @@
       canvas.width = cw;
       canvas.height = ch;
       updateBigVideo(v, context, cw, ch);
-      canvas.className = 'col-xs-6 col-md-3 gif';
+      canvas.className = 'gif';
       gallery.appendChild(canvas)
     }
   }

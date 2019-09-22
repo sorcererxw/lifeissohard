@@ -54,6 +54,11 @@
 
   const v = document.getElementById('realvideo');
 
+  function isMute() {
+    const reg = /[?&]mute=1/;
+    return reg.test(document.location)
+  }
+
   function updateBigVideo(v, c, w, h) {
     if (v.paused || v.ended) return false;
     c.drawImage(v, 0, 0, w, h);
@@ -75,7 +80,7 @@
   }
 
   v.addEventListener('play', function () {
-    if (player) {
+    if (player && !isMute()) {
       player.play();
       player = null;
     }

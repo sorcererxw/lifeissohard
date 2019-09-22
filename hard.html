@@ -9,12 +9,34 @@
   <link rel="shortcut icon" href="logo.jpeg" type="image/x-png"/>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+    html {
+      background: black;
+    }
+
+    .videowrap {
+      position: fixed;
+      z-index: 999;
+    }
+
+    .videowrap > video {
+      height: 0;
+      width: 0;
+    }
+  </style>
+
   <link rel="stylesheet" href="flexboxgrid.min.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<div id="gallery" class="row">
+<div class="videowrap">
+  <video autoplay playsinline loop muted id="realvideo">
+    <source type="video/webm"
+            src="hard.webm">
+  </video>
+</div>
+<div id="gallery" style="line-height: 0">
 </div>
 
 <audio id="player" loop src="hard.mp3"></audio>
@@ -22,41 +44,52 @@
   let player = document.getElementById('player');
   const gallery = document.getElementById('gallery');
 
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const genericWidth = 300;
+  const rowCount = Math.floor(windowWidth / genericWidth);
+  const columnCount = Math.ceil(windowHeight / genericWidth);
+  const realWidth = windowWidth / rowCount;
+  const eachCount = rowCount * columnCount;
+
+  const v = document.getElementById('realvideo');
+
+  function updateBigVideo(v, c, w, h) {
+    if (v.paused || v.ended) return false;
+    c.drawImage(v, 0, 0, w, h);
+    setTimeout(updateBigVideo, 20, v, c, w, h);
+  }
+
   function appendGif(size) {
     for (let i = 0; i < size; i++) {
-      const video = document.createElement("video");
-      const webmSource = document.createElement("source");
-      webmSource.src = 'hard.webm';
-      webmSource.type = 'video/webm';
-      const mp4Source = document.createElement("source");
-      webmSource.src = 'hard.mp4';
-      webmSource.type = 'video/mp4';
-      video.controls = false;
-      video.autoplay = true;
-      video.muted = true;
-      video.playsinline = true;
-      video.loop = true;
-      video.appendChild(webmSource);
-      video.appendChild(mp4Source)
-      video.className = 'col-xs-6 col-md-3 gif';
-      gallery.appendChild(video)
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      const cw = Math.floor(realWidth);
+      const ch = Math.floor(realWidth);
+      canvas.width = cw;
+      canvas.height = ch;
+      updateBigVideo(v, context, cw, ch);
+      canvas.className = 'col-xs-6 col-md-3 gif';
+      gallery.appendChild(canvas)
     }
   }
 
-  if (player) {
-    player.play();
-    player = null;
-    appendGif(12)
-  }
+  v.addEventListener('play', function () {
+    if (player) {
+      player.play();
+      player = null;
+      appendGif(eachCount)
+    }
+  });
 
-  var ticking = false;
-  var lastY = 0;
+  let ticking = false;
+  let lastY = 0;
   window.addEventListener('scroll', function (e) {
-    var pos = window.scrollY;
+    const pos = window.scrollY;
 
     if (!ticking) {
       window.requestAnimationFrame(function () {
-        var diff = pos - lastY;
+        const diff = pos - lastY;
         appendGif(parseInt(diff / 50));
         ticking = false;
         lastY = pos
